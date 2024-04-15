@@ -1,27 +1,26 @@
-int AnalogPin0 = A0;
-unsigned long startMicros;
+const int analogPin = A0;
+const unsigned long samplingInterval = 199;  // Sampling interval in microseconds
 
-void setup() 
-{
-   Serial.begin(9600);
-   startMicros = micros();
+void setup() {
+  Serial.begin(115200);  // Set baud rate to 115200
 }
 
-void loop() 
-{
-   char ReceivedByte = Serial.read();
-   float value = 0.0;
-   
-   if (ReceivedByte == '$')
-   {
-      //delay(1000);
-      startMicros = micros(); // Reset the start time in microseconds
-   } 
+void loop() {
+  static unsigned long lastSampleTime = 0;
+  unsigned long currentTime = micros();
 
-   unsigned long currentMicros = micros() - startMicros; // Calculate elapsed time in microseconds
-   value = analogRead(AnalogPin0);
-   Serial.print(currentMicros);
-   Serial.print("-");
-   Serial.println(value); 
-   delayMicroseconds(600);
+  // Check if it's time to take a new sample
+  if (currentTime - lastSampleTime >= samplingInterval) {
+    // Read analog value from A0
+    int sensorValue = analogRead(analogPin);
+    
+    // Send current time as raw binary data
+    Serial.write((uint8_t*)&currentTime, 4);  // Sending 4 bytes
+    
+    // Send analog value as raw binary data
+    Serial.write((uint8_t*)&sensorValue, 2);  // Sending 2 bytes
+
+    // Update last sample time
+    lastSampleTime = currentTime;
+  }
 }
