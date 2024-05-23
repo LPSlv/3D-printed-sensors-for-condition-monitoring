@@ -1,6 +1,6 @@
-const int analogPin = A0;
-const unsigned long samplingInterval = 50;  // Sampling interval in microseconds (will result in ~160ms)
-int sensorValue = 0;
+const int analog_pin = A0;
+const unsigned long sampling_interval = 50;
+int sensor_value = 0;
 
 void setup() {
   analogReference(DEFAULT);
@@ -8,15 +8,16 @@ void setup() {
 }
 
 void loop() {
-  static unsigned long lastSampleTime = 0;
-  unsigned long currentTime = micros();
+  static unsigned long last_sample_time = 0;
+  unsigned long current_time = micros();
 
-  if (currentTime - lastSampleTime >= samplingInterval) {
-    sensorValue = (analogRead(analogPin));
+  // Pārbauda vai ir pagājis mērījumu intervāls
+  if (current_time - last_sample_time >= sampling_interval) {
+    sensor_value = analogRead(analog_pin);
     
-    // Send sensor value as 2 bytes
-    Serial.write((uint8_t*)&sensorValue, 2);
+    // Vērtības nosūtīšana 2 baitos
+    Serial.write((uint8_t*)&sensor_value, 2);
 
-    lastSampleTime = currentTime;
+    last_sample_time = current_time;
   }
 }
