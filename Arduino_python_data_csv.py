@@ -3,52 +3,57 @@ import csv
 import time
 import struct
 
-ser = serial.Serial('COM11', 115200)
-time.sleep(2)  # 2 second delay to allow the Arduino to reset
+arduino = serial.Serial('COM11', 115200)
 
+# Dati faila nosaukumam
 current_date = time.strftime('%d_%B')
 current_time = time.strftime('%Hh_%Mm')
-supplied_voltage = float(input("Enter supplied voltage (V): "))
-shunt_resistance = float(input("Enter shunt resistance (kOhm): "))
-filename = f"{current_date}_{current_time}_{supplied_voltage}V_{shunt_resistance}kOhm_log.csv"
+voltage = float(input("Voltage: (V): "))
+shunt_resistance = float(input("Shunt resistor (kOhm): "))
+filename = f"{current_date}_{current_time}_{voltage}V_{shunt_resistance}kOhm_log.csv"
 
 buffer_size = 100
 
-with open(filename, 'w', newline='') as csvfile:
-    data_writer = csv.writer(csvfile)
+
+with open(filename, 'w', newline='') as file:
+    data_writer = csv.writer(file)
+    
+    # Faila galvene
     data_writer.writerow(['Microseconds', 'Value'])
     
     buffer = []
 
     try:
-        print(f"Logging data to {filename}...")
-        print(f"Press CTRL+C to stop")
-        start_time_ns = time.perf_counter_ns()  # Start time in nanoseconds
+        print(f"Filename: {filename}...")
+        print(f"CTRL+C to stop")
+        
+        start_time_ns = time.perf_counter_ns()
 
         while True:
-            # Read 2 bytes (16 bits) data
-            data = ser.read(2)
+            # Nolasa 2 baitus
+            data = arduino.read(2)
             try:
-                # Unpack binary data to integer
-                sensorValue = struct.unpack('<H', data)[0]  # Little-endian, unsigned short
-                elapsed_time_ns = time.perf_counter_ns() - start_time_ns
-                elapsed_time_us = elapsed_time_ns // 1000  # Convert nanoseconds to microseconds
+                # Little-endian, unsigned short formats
+                sensor_value = struct.unpack('<H', data)[0]  
                 
-                buffer.append([elapsed_time_us, sensorValue])
+                # Laiks, kas pagajis kops merijuma saksanas
+                elapsed_time_ns = time.perf_counter_ns() - start_time_ns
+                elapsed_time_us = elapsed_time_ns // 1000
+                
+                buffer.append([elapsed_time_us, sensor_value])
 
+                # Ja buferis ir pilns, ieraksta datus faila
                 if len(buffer) >= buffer_size:
                     data_writer.writerows(buffer)
                     buffer = []
 
-                print(f"Microseconds: {elapsed_time_us}, Value: {sensorValue}")
+                print(f"Microseconds: {elapsed_time_us}, Value: {sensor_value}")
                 
-            except ValueError:
-                print(f"Invalid data: {data}")
             except KeyboardInterrupt:
                 if buffer:
                     data_writer.writerows(buffer)
-                ser.close()
-                print("Logging stopped.")
+                arduino.close()
+                print("Stopped")
                 break
     except serial.SerialException as e:
         print(f"Serial error: {e}")
