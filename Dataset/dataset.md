@@ -1,3 +1,10 @@
+Overall, 40 experiments were conducted, resulting in 40 data sets, each measuring different combinations of the electric motor system state. Measurements were taken for approximately 60 seconds for each data set. 10 Pololu micrometal gearmotors were used, of which 6 were worn out and 4 were new or slightly used. To test the sensor's ability to monitor various states of the electric motor system, the following states were selected:
+
+1. **Added load** – an aluminum wheel with a diameter of 26 mm and a width of 20 mm attached to the motor shaft.
+2. **Structural integrity** – a cracked 3D-printed mount used for motor mounting.
+3. **Motor wear** – whether the motor is worn, such as an eccentric shaft rotation.
+
+
 | Nr. | File name                            | Wheel added | Broken mount | Worn out motor |
 |-----|--------------------------------------|-------------|--------------|----------------|
 | 1   | 16_May_15h_41m_5.0V_2.2kOhm_log.csv  | 1           | 1            | 1              |
