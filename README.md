@@ -48,14 +48,3 @@ The developed 3D printed sensor and measurement scheme can be used to determine 
 Further research is needed to:
 1. Improve the reliability of 3D printed sensor results to reduce the number of invalid datasets, such as enhancing the electrical connections between the sensor and measurement scheme.
 2. Explore other feature extraction methods and algorithms to improve classification for other conditions. This could include calculating additional features or using other machine learning algorithms.
-
-## Images
-
-- **Worn Motor Class**
-  ![Worn Motor Confusion Matrix](images/worn_motor_confusion_matrix.png)
-
-- **Cracked Mount Class**
-  ![Cracked Mount Confusion Matrix](images/cracked_mount_confusion_matrix.png)
-
-- **Wheel Attached Class**
-  ![Wheel Attached Confusion Matrix](images/wheel_attached_confusion_matrix.png)
