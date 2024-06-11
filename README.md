@@ -11,11 +11,11 @@ Features were extracted from the signals using power spectral density and used f
 
 ## Key Metrics
 
-| Class                  | Accuracy | Positive Predictive Value | Recall | F1 Score |
-|------------------------|----------|---------------------------|--------|----------|
-| Worn Motor             | 0.788    | 0.817                     | 0.875  | 0.804    |
-| Cracked Mount          | 0.688    | 0.667                     | 0.542  | 0.567    |
-| Wheel Attached         | 0.513    | 0.467                     | 0.667  | 0.542    |
+| Class                  | Accuracy | Precision | Recall | F1 Score |
+|------------------------|----------|-----------|--------|----------|
+| Worn Motor             | 0.788    | 0.817     | 0.875  | 0.804    |
+| Cracked Mount          | 0.688    | 0.667     | 0.542  | 0.567    |
+| Wheel Attached         | 0.513    | 0.467     | 0.667  | 0.542    |
 
 ## Sensor Design
 
